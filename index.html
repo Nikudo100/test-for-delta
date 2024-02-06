@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Example</title>
+
+    <!-- Если нужно использовать JQuery
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+</head>
+
+<body>
+    <table id="data-table">
+        <tr>
+            <th>Показатели</th>
+            <th>Текущий день</th>
+            <th>Вчера</th>
+            <th>Эта неделя</th>
+        </tr>
+        <tr>
+            <td>Выручка</td>
+            <td id="revenue-today"></td>
+            <td id="revenue-yesterday"></td>
+            <td id="revenue-week"></td>
+        </tr>
+        <tr>
+            <td>Наличные</td>
+            <td id="cash-today"></td>
+            <td id="cash-yesterday"></td>
+            <td id="cash-week"></td>
+        </tr>
+        <tr>
+            <td>Безналичные</td>
+            <td id="non-cash-today"></td>
+            <td id="non-cash-yesterday"></td>
+            <td id="non-cash-week"></td>
+        </tr>
+    </table>
+
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'data.php', true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                document.getElementById('revenue-today').innerText = data.revenue.today;
+                document.getElementById('revenue-yesterday').innerText = data.revenue.yesterday;
+                document.getElementById('revenue-week').innerText = data.revenue.week;
+
+                document.getElementById('cash-today').innerText = data.cash.today;
+                document.getElementById('cash-yesterday').innerText = data.cash.yesterday;
+                document.getElementById('cash-week').innerText = data.cash.week;
+
+                document.getElementById('non-cash-today').innerText = data.non_cash.today;
+                document.getElementById('non-cash-yesterday').innerText = data.non_cash.yesterday;
+                document.getElementById('non-cash-week').innerText = data.non_cash.week;
+            }
+        };
+
+        xhr.send();
+    </script>
+    <!-- Если нужно использовать JQuery
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'data.php',
+                success: function (data) {
+                    $('#revenue-today').text(data.revenue.today);
+                    $('#revenue-yesterday').text(data.revenue.yesterday);
+                    $('#revenue-week').text(data.revenue.week);
+
+                    $('#cash-today').text(data.cash.today);
+                    $('#cash-yesterday').text(data.cash.yesterday);
+                    $('#cash-week').text(data.cash.week);
+
+                    $('#non-cash-today').text(data.non_cash.today);
+                    $('#non-cash-yesterday').text(data.non_cash.yesterday);
+                    $('#non-cash-week').text(data.non_cash.week);
+                },
+                error: function (xhr, status, error) {
+                    console.log('AJAX Error:', error);
+                }
+            });
+        });
+    </script> -->
+</body>
+
+</html>
